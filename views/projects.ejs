@@ -185,7 +185,9 @@ function tableToJSON(table) {
     //xhttp.open('POST', 'http://localhost:3000/clearProjects');
 
     /* USE LINE BELOW TO RUN ON HEROKU */
+    //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearVols');
     xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/clearProjects');
+
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.responseType = "json";
     console.log(data);
