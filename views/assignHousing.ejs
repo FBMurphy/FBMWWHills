@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<div class="sidenav">
+  <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+  <a href= 'volunteerRegistration'>Volunteer Registration</a>
+</div>
+
+<div>
+
+  <form class="modal-content" action = "/populateHousingInfo" method = "POST">
+    <div class="container">
+      <h1>Housing Assignments</h1>
+      <p>Assign Volunteers to a housing unit for the duration of their stay</p>
+      <hr>
+      <label for = "startdate"><b>Start Date</b></label>
+      <input type = "date" name = "startdate" id = "startdate" required>
+      <label for = "enddate"><b>End Date</b></label>
+      <input type = "date" name = "enddate" id = "enddate" required><br/><br/>
+      <button class = cancelbtn type = "submit">Select These Dates</button>
+  </form>
+  <form class = 'modal-content' action = '/updateHousingInfo' method = 'POST'>
+      <label for = "unit1"><b>Unit 1</b></label><br/>
+        <select name = '1_1' id = '1_1'>
+          <%if(volunteers.length){%>
+              <option>Unassigned</option>
+            <%for(var i = 0 ; i < volunteers.length ; i++){%>
+              <option value = <%=volunteers[i]._id %>><%=volunteers[i].firstName + " " + volunteers[i].lastName + "(" + volunteers[i].missionGroup + ")" %></option>
+            <%}%>
+          <%}else{%>
+            <tr>
+              <option>No Volunteers To Show </option>
+            </tr>
+          <%}%>
+        </select>
+        <select name = '1_2' id = '1_2'>
+          <%if(volunteers.length){%>
+              <option>Unassigned</option>
+            <%for(var i = 0 ; i < volunteers.length ; i++){%>
+              <option value = <%=volunteers[i]._id %>><%=volunteers[i].firstName + " " + volunteers[i].lastName + "(" + volunteers[i].missionGroup + ")" %></option>
+            <%}%>
+          <%}else{%>
+            <tr>
+              <option>No Volunteers To Show </option>
+            </tr>
+          <%}%>
+        </select>
+        <select name = '1_3' id = '1_3'>
+          <%if(volunteers.length){%>
+              <option>Unassigned</option>
+            <%for(var i = 0 ; i < volunteers.length ; i++){%>
+              <option value = <%=volunteers[i]._id %>><%=volunteers[i].firstName + " " + volunteers[i].lastName + "(" + volunteers[i].missionGroup + ")" %></option>
+            <%}%>
+          <%}else{%>
+            <tr>
+              <option>No Volunteers To Show </option>
+            </tr>
+          <%}%>
+        </select>
+        <select name = '1_4' id = '1_4'>
+          <%if(volunteers.length){%>
+              <option>Unassigned</option>
+            <%for(var i = 0 ; i < volunteers.length ; i++){%>
+              <option value = <%=volunteers[i]._id %>><%=volunteers[i].firstName + " " + volunteers[i].lastName + "(" + volunteers[i].missionGroup + ")" %></option>
+            <%}%>
+          <%}else{%>
+            <tr>
+              <option>No Volunteers To Show </option>
+            </tr>
+          <%}%>
+        </select>
+      <button class = cancelbtn type = "submit">Finish</button>
+    </form>
+    </div>
+</div>

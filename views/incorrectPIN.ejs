@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<body>
+
+  <div>
+    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content">
+      <div class="container">
+        <h1>Sorry, that is not a valid PIN number!</h1>
+        <p>Please select one of the options below</p>
+        <hr>
+          <button type="button" onclick = "window.location.href = 'signup'"class = "signupbtn" id = 'signupbtn'>Sign Up as a New User</button>
+          <button type="button" onclick="window.location.href = 'login'" class="cancelbtn">Return to Login Page</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</body>
+</html>

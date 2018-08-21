@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box}
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+input[type=tel], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+    padding: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #4d0066;
+    padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn {
+       width: 100%;
+    }
+}
+
+.tdiv{
+  text-align: center;
+  width = 100%;
+  background-color: #FFFFFF;
+  padding: 20px;
+}
+
+.projtbl{
+  border: 1px solid black;
+  width: 40%;
+  background-color: #FFFFFF;
+  margin: 0 auto;
+}
+
+.projtbl th{
+  border: 1px solid black;
+  height: 75px;
+  text-align: center;
+}
+
+.projtbl tr,td{
+  border: 1px solid black;
+  height: 50px;
+  padding: 5px;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #FFFFFF;
+}
+</style>
+<body>
+
+<script>
+function tableToJSON(table) {
+    var data = [];
+
+    // first row needs to be headers
+    var headers = [];
+    for (var i=0; i<table.rows[0].cells.length; i++) {
+        headers[i] = table.rows[0].cells[i].innerHTML.toLowerCase().replace(/ /gi,'');
+    }
+
+    // go through cells
+    for (var i=1; i<table.rows.length; i++) {
+
+        var tableRow = table.rows[i];
+        var rowData = {};
+
+        rowData[ headers[0] ] = tableRow.cells[0].innerHTML;
+        var completed = tableRow.getElementsByTagName("td")[3].getElementsByTagName("input")[0].checked;
+        var projectID = tableRow.getElementsByTagName("td")[0].innerHTML;
+        if(completed){
+          data.push(projectID);
+          console.log(data);
+        }
+    }
+
+    const xhttp = new XMLHttpRequest();
+
+    /* USE LINE BELOW TO RUN ON LOCALHOST */
+    xhttp.open('POST', 'http://localhost:3000/clearProjects');
+
+    /* USE LINE BELOW TO RUN ON HEROKU */
+    //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearProjects');
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.responseType = "json";
+    console.log(data);
+    xhttp.send(JSON.stringify(data));
+    window.location.href = 'projects';
+}
+/*
+function dataToJSON(projectID){
+  this.projectID = projectID;
+}
+*/
+</script>
+
+<div class="sidenav">
+  <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+  <a href= 'addproject'>Add A Project</a>
+  <a onclick= 'tableToJSON(projecttbl)'>Clear Completed Projects</a>
+  <a href= 'staffHome'>Return to Home Page</a>
+</div>
+<%console.log("Local Systems showing projects: ", projects)%>
+  <div class = "tdiv">
+    <table id = "projecttbl" class = "projtbl">
+      <tr>
+        <th>Project ID</th>
+        <th>Project</th>
+        <th>Skills Required</th>
+        <th>Completed</th>
+      </tr>
+      <%if(projects.length){%>
+        <%for(var i = 0 ; i < projects.length ; i++){%>
+          <tr>
+            <td><%=projects[i]._id %></td>
+            <td><%=projects[i].name %></td>
+            <td><%=projects[i].skillsRequired %></td>
+            <td><input type = "checkbox"  name = "completed" id = "completed"></td>
+          </tr>
+        <%}%>
+      <%}else{%>
+        <tr>
+          <td colspan = "4">No Projects To Show </td>
+        </tr>
+      <%}%>
+    </table>
+  </div>
+
+</body>
+</html>

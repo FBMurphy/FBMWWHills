@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<script>
+  function validate(){
+    if(document.getElementById('confpassword').value === document.getElementById('password').value){
+      document.getElementById('signupbtn').disabled = false;
+      document.getElementById('signupbtn').hidden = false;
+      document.getElementById('confpassword').style.color = 'green';
+    }
+    else{
+      document.getElementById('signupbtn').disabled = true;
+      document.getElementById('signupbtn').hidden = true;
+      document.getElementById('confpassword').style.color = 'red';
+    }
+  }
+</script>
+<body>
+  <div class="sidenav">
+    <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+    <a href= '/'>Return to Home Page</a>
+  </div>
+<div>
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action = "/registerUser" method = "POST">
+    <div class="container">
+      <h1>Sign Up</h1>
+      <p>Please complete the form below. Fields marked with * are required.</p>
+      <hr>
+      <label for="email"><b>Email*</b></label>
+      <input type="email" placeholder="Enter Email" name="email" id = "email" required>
+      <label for="password"><b>Password*</b></label></br>
+      <input type="password" id="password" name="password" minlength="8" required placeholder="8 characters minimum" />
+      <label for="confpassword"><b>Confirm Password* (Sign up button will appear once this matches your password)</b></label></br>
+      <input class = 'confpassword' style = "color:red" type="password" id="confpassword" name="confpassword" minlength="8" onkeyup = 'validate()' required placeholder="Enter the same password as above" />
+      <label for = "title"><b>Select the appropriate role*</b></label></br>
+      <input type = "radio" name = "title" value = "leader" required>Leader of a Mission Group</br>
+      <input type = "radio" name = "title" value = "volunteer" required>Volunteer</br></br>
+      <div class="clearfix">
+        <button type="submit" class = "signupbtn" id = 'signupbtn' disabled hidden>Sign Up</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+</body>
+</html>

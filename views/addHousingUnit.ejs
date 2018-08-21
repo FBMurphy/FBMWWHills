@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<body>
+  <div class="sidenav">
+    <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+    <a href= 'housingAssignments'>Return to Housing Assignments Page</a>
+    <a href= 'staffHome'>Return to Home Page</a>
+  </div>
+  <div>
+    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content" action = "/insertHousingUnit" method = "POST">
+      <div class="container">
+        <h1>Add a Housing Unit</h1>
+        <p>Please complete the form below. Fields marked with * are required.</p>
+        <hr>
+        <label for = "unitname"><b>Unit Name*</b></label>
+        <input type = "text" placeholder = "Enter the name of the housing unit" name = "unitname" required>
+        <label for = "numpeople"><b>Number of Occupants*</b></label>
+        <input type = "text" name = "numoccupants" name = "numoccupants" required>
+        <label for = "type"><b>Type*</b></label><br>
+        <input type = "radio" name = "type" value = "male" required>Male</br>
+        <input type = "radio" name = "type" value = "female" required>Female</br>
+        <input type = "radio" name = "type" value = "family" required>Family</br>
+        <input type = "radio" name = "type" value = "ranchermale" required>Rancher Male</br>
+        <input type = "radio" name = "type" value = "rancherfemale" required>Rancher Female</br>
+
+        <div class="clearfix">
+          <button type="submit" class="signupbtn">Add Unit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

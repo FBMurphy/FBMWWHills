@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<script>
+  function validate(){
+    if(document.getElementById('confpassword').value === document.getElementById('password').value){
+      document.getElementById('signupbtn').disabled = false;
+      document.getElementById('signupbtn').hidden = false;
+      document.getElementById('confpassword').style.color = 'green';
+    }
+    else{
+      document.getElementById('signupbtn').disabled = true;
+      document.getElementById('signupbtn').hidden = true;
+      document.getElementById('confpassword').style.color = 'red';
+    }
+  }
+</script>
+<body>
+  <div class="sidenav">
+    <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+    <a href= '/'>Return to Home Page</a>
+  </div>
+<div>
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action = "/confirmEmail" method = "POST">
+    <div class="container">
+      <h1>Please enter your email below</h1>
+      <p>An email with a link to reset your password will be sent</p>
+      <hr>
+      <label for="email"><b>Email*</b></label>
+      <input type="email" placeholder="Enter Email" name="email" id = "email" required>
+      <div class="clearfix">
+        <button type="submit" class = "signupbtn" id = 'signupbtn'>Send Email</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+</body>
+</html>

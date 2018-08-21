@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<body>
+
+<div class="sidenav">
+  <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+  <a href= 'projects'>Return to Projects Page</a>
+</div>
+
+<div>
+
+  <form class="modal-content" action = "insertProject" method = "POST">
+    <div class="container">
+      <h1>Add a Project</h1>
+      <p>Fill in the fields below to add a new project to the to-do list.</p>
+      <hr>
+      <label for = "proj"><b>New Project</b></label>
+      <input type = "text" placeholder = "Enter A Brief Project Description" name = "proj" id = "proj"required>
+      <label for = "skills"><b>Required Skills (check all that apply)</b></label></br>
+      <input type = "checkbox" name = "plumbing" value = "Plumbing " id = "plumbing">Plumbing</br>
+      <input type = "checkbox" name = "gardening" value = "gardening" id = "gardening">Gardening</br>
+      <input type = "checkbox" name = "electrical" value = "electrical" id = "electrical">Electrical</br>
+      <input type = "checkbox" name = "cooking" value = "cooking" id = "cooking">Cooking</br>
+      <input type = "checkbox" name = "construction" value = "construction" id = "construction">Construction</br>
+      <label for = "otherskills"><b>Enter any other skills that are required for this project.</b></label>
+      <input type = "text" placeholder = "Enter Other Skills" name = "otherskills" id = "otherskills"></br>
+      <button type = "submit" class = "signupbtn">Add Project</button><br/><br/>
+    </div>
+    <p><span id = "project_list"></span></p>
+  </form>
+</div>
+</body>
+</html>

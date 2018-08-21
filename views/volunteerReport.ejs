@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+<body>
+
+<script>
+function tableToJSON(table) {
+    var data = [];
+
+    // first row needs to be headers
+    var headers = [];
+    for (var i=0; i<table.rows[0].cells.length; i++) {
+        headers[i] = table.rows[0].cells[i].innerHTML.toLowerCase().replace(/ /gi,'');
+    }
+
+    // go through cells
+    for (var i=1; i<table.rows.length; i++) {
+
+        var tableRow = table.rows[i];
+        var rowData = {};
+
+        rowData[ headers[0] ] = tableRow.cells[0].innerHTML;
+        var completed = tableRow.getElementsByTagName("td")[10].getElementsByTagName("input")[0].checked;
+        var volunteerID = tableRow.getElementsByTagName("td")[0].innerHTML;
+        if(completed){
+          data.push(volunteerID);
+          console.log(data);
+        }
+    }
+
+    const xhttp = new XMLHttpRequest();
+
+    /* USE LINE BELOW TO RUN ON LOCALHOST */
+    xhttp.open('POST', 'http://localhost:3000/clearVols');
+
+    /* USE LINE BELOW TO RUN ON HEROKU */
+    //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearVols');
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.responseType = "json";
+    console.log(data);
+    xhttp.send(JSON.stringify(data));
+    console.log("From voluntterReport.ejs in tabletoJSON near end of script")
+    window.location.href = 'volunteerReport';
+}
+
+function dataToJSON(projectID){
+  this.projectID = projectID;
+}
+</script>
+  <div class="sidenav">
+    <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+    <a onclick= 'tableToJSON(voltbl)'>Remove Selected Volunteers</a>
+    <a href= 'staffHome'>Return to the Home Page</a>
+  </div>
+  <div class = "tdiv">
+    <table id = "voltbl" class = "projtbl" style = "width:85%" align = "right">
+      <tr>
+        <th>Volunteer ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Mission Group</th>
+        <th>Arrival Date</th>
+        <th>Departure Date</th>
+        <th>Skills</th>
+        <th>Medical Conditions</th>
+        <th>Remove?</th>
+      </tr>
+      <%if(volunteers.length){%>
+        <%for(var i = 0 ; i < volunteers.length ; i++){%>
+          <tr>
+            <td><%=volunteers[i]._id %></td>
+            <td><%=volunteers[i].firstName + " " + volunteers[i].lastName %></td>
+            <td><%=volunteers[i].age %></td>
+            <td><%=volunteers[i].email %></td>
+            <td><%=volunteers[i].phone %></td>
+            <td><%=volunteers[i].missionGroup %></td>
+            <td><%=volunteers[i].startDate.getMonth() + 1 + "/" + (volunteers[i].startDate.getDate()) + "/" + volunteers[i].startDate.getFullYear(); %></td>
+            <td><%=volunteers[i].endDate.getMonth() + 1 + "/" + (volunteers[i].endDate.getDate()) + "/" + volunteers[i].endDate.getFullYear(); %></td>
+            <td><%=volunteers[i].skills %></td>
+            <td><%=volunteers[i].medicalConditions %></td>
+            <td><input type = "checkbox"  name = "remove" id = "remove"></td>
+          </tr>
+        <%}%>
+      <%}else{%>
+        <tr>
+          <td colspan = "4">No Volunteers To Show </td>
+        </tr>
+      <%}%>
+    </table>
+  </div>
+
+</body>
+</html>

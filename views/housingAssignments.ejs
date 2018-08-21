@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+<body>
+  <script>
+  function tableToJSON() {
+    console.log("HU", housingUnits);
+      let housingUnits = <%-JSON.stringify(housingUnits) %>;
+      var data = [];
+
+      for(var i = 0 ; i < housingUnits.length ; i++){
+        //first row needs to be headers
+        var tableID = housingUnits[i].unitName + "tbl";
+        var table = document.getElementById(tableID);
+        var tr = table.getElementsByTagName("tr");
+        var headers = [];
+        for (var j=0; j<table.rows[0].cells.length; j++) {
+            headers[j] = table.rows[0].cells[j].innerHTML.toLowerCase().replace(/ /gi,'');
+        }
+
+        // go through cells
+        for (var k=1; k<tr.length; k++) {
+          var td = tr[k].getElementsByTagName("td")[5];
+            var tableRow = table.rows[k];
+            var rowData = {};
+
+            rowData[ headers[0] ] = tableRow.cells[0].innerHTML;
+            var e= td.getElementsByTagName('select')[0];
+            console.log("selected value is: "+ e.options[e.selectedIndex].text);
+            var selIndex = e.options[e.selectedIndex].text;
+            var newAssignment = selIndex;
+            var name = tableRow.getElementsByTagName("td")[1].innerHTML;
+            var startDate = tableRow.getElementsByTagName("td")[3].innerHTML;
+            var endDate = tableRow.getElementsByTagName("td")[4].innerHTML;
+            if(newAssignment != ""){
+              data.push({
+                name: name,
+                assignment: newAssignment,
+                startDate: startDate,
+                endDate: endDate
+              });
+              console.log(JSON.stringify(data));
+            }
+        }
+      }
+
+      const xhttp = new XMLHttpRequest();
+
+      /* USE LINE BELOW TO RUN ON LOCALHOST */
+      xhttp.open('POST', 'http://localhost:3000/reassignHousing');
+
+      /* USE LINE BELOW TO RUN ON HEROKU */
+      //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/reassignHousing');
+      xhttp.setRequestHeader('Content-Type', 'application/json');
+      xhttp.responseType = "json";
+      console.log(data);
+      xhttp.send(JSON.stringify(data));
+  }
+
+  </script>
+
+<div class="sidenav">
+  <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+  <a href= 'staffHome'>Return to Home Page</a>
+  <a href= 'addHousingUnit'>Add Housing Unit</a>
+</div>
+
+<div>
+
+  <form class="modal-content" action = "/populateHousingInfo" method = "POST">
+    <div class="container">
+      <h1>Housing Assignments</h1>
+      <p>Assign Volunteers to a housing unit for the duration of their stay</p>
+      <hr>
+      <label for = "startdate"><b>Start Date</b></label>
+      <input type = "date" name = "startdate" id = "startdate" required value = <%=dates[0]%>>
+      <label for = "enddate"><b>End Date</b></label>
+      <input type = "date" name = "enddate" id = "enddate" required value = <%=dates[1]%>><br/><br/>
+      <button class = cancelbtn type = "submit">Select These Dates</button>
+  </form><br/><br/><br/>
+    <%if(housingUnits.length){%>
+      <%for(var i = 0 ; i < housingUnits.length ; i++){%>
+        <%var count = 0%>
+        <br/>
+        <label for = <%=housingUnits[i].unitName %>><b><%=housingUnits[i].unitName + " ("+ housingUnits[i].type+" housing for up to "+ housingUnits[i].occupants + " Volunteers)" %></b></label>
+        <div class = "tdiv">
+          <table  class = "voltbl" id = <%=housingUnits[i].unitName+"tbl"%>>
+            <tr>
+              <th>Occupant Number</th>
+              <th>Name</th>
+              <th>Mission Group</th>
+              <th>Arrival Date</th>
+              <th>Departure Date</th>
+              <th>Reassign Housing</th>
+            </tr>
+            <%if(volunteers.length){%>
+              <%for(var j = 0 ; j < volunteers.length ; j++){%>
+                <%if(volunteers[j].housingAssignment === housingUnits[i].unitName){%>
+                  <%count++%>
+                  <tr>
+                    <td><%=count%></td>
+                    <td><%=volunteers[j].firstName + " " + volunteers[j].lastName %></td>
+                    <td><%=volunteers[j].missionGroup %></td>
+                    <td><%=volunteers[j].startDate.getMonth() + 1 + "/" + (volunteers[j].startDate.getDate()) + "/" + volunteers[j].startDate.getFullYear(); %></td>
+                    <td><%=volunteers[j].endDate.getMonth() + 1 + "/" + (volunteers[j].endDate.getDate()) + "/" + volunteers[j].endDate.getFullYear(); %></td>
+                    <td>
+                      <select id = "housingSelect">
+                        <option value = "nochange"> </option>
+                        <%for(var k = 0 ; k < housingUnits.length ; k++){%>
+                          <%if((housingUnits[k].unitName != housingUnits[i].unitName) && (volunteers[j].gender === housingUnits[k].type || housingUnits[k].type === "family")){%>
+                            <option value = <%=housingUnits[k].unitName %>><%=housingUnits[k].unitName %></option>
+                          <%}%>
+                        <%}%>
+                      </select>
+                    </td>
+                  </tr>
+                <%}%>
+              <%}%>
+            <%}else{%>
+              <tr>
+                <td colspan = "5">No Occupants To Show </td>
+              </tr>
+            <%}%>
+          </table>
+        </div>
+      <%}%>
+    <%}else{%>
+        <label for = "noUnits"></label><br/>
+    <%}%>
+      <br/>
+      <button onclick = "tableToJSON()" class = "signupbtn">Update Housing Assignments</button><br/><br/><br/>
+    </div>
+</div>
+</body>
+</html>

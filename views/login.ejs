@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport" content= "width = device-width, initial-scale = 1.0">
+  <link rel = "stylesheet" type = "text/css" href = "/styles/styles.css">
+</head>
+
+<body>
+  <div class="sidenav">
+    <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
+    <a href= '/'>Return to Home Page</a>
+  </div>
+<div>
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action = "/loginUser" method = "POST">
+    <div class="container">
+      <h1>Log In</h1>
+      <p>Welcome Back!</p>
+      <hr>
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="email" id = "email">
+      <label for="password"><b>Password*</b></label></br>
+      <input type="password" id="password" name="password"/>
+
+
+
+
+      <div class="clearfix">
+        <button type="submit" class = "signupbtn">Log In</button>
+        <button type="button" onclick="window.location.href = 'forgotPassword'" class="cancelbtn">Forgot Password?</button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+
+</body>
+</html>
