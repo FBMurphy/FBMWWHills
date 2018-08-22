@@ -555,6 +555,9 @@ app.post('/updateHousingInfo', function(req,res,next){
 
 app.post('/reassignHousing', (req, res) => {
   console.log("reassignHousing req.body", req.body);
+  var dates = [req.body[0].repStartDate, req.body[0].repEndDate];
+  var housingUnits = [];
+  var volunteers = [];
   for(var i = 0 ; i < req.body.length ; i++){
     var name = req.body[i].name.split(" ");
     var first = name[0];
@@ -562,22 +565,39 @@ app.post('/reassignHousing', (req, res) => {
     var arrival = req.body[i].startDate;
     var departure = req.body[i].endDate;
     var newAssignment = req.body[i].assignment;
+    console.log("All Data: " +first+"   "+last+"   "+arrival+"   "+departure+"   "+newAssignment);
     Volunteer.findOneAndUpdate({
         firstName: first,
         lastName: last,
-        startDate: arrival,
-        endDate: departure
-    }, {
-        housingAssignment: newAssignment
+        //startDate: arrival,
+        //endDate: departure
+    }, {$set: { housingAssignment: newAssignment}
     }, {
         new: true
     }).then((vol) => {
-      console.log(vol);
+      console.log("Just after update: ", vol);
+      HousingUnit.find({}).then((houses) => {
+        housingUnits = houses;
+        console.log("housingUnits: ", housingUnits);
+        Volunteer.find({
+          $or: [{
+            $and: [{startDate: {$gte: dates[0]}}, {startDate: {$lte: dates[1]}}]},{
+            $and: [{endDate: {$gte: dates[0]}}, {endDate: {$lte: dates[1]}}]},{
+            $and: [{startDate: {$lte: dates[0]}}, {endDate: {$gte: dates[1]}}]}
+          ]
+        }).then((vols) => {
+          volunteers = vols;
+          console.log("Volunteers: ", volunteers);
+        });
+      });
     }, (e) => {
       res.status(400).send(e);
     });
   }
-  res.render('../views/housingAssignments.ejs');
+  console.log("Dates: ", dates);
+  console.log("Volunteers2: ", volunteers);
+  console.log("housingUnits2: ", housingUnits);
+  res.render('../views/housingAssignments.ejs', {volunteers, housingUnits, dates});
 });
 
   app.post('/insertHousingUnit', function(req, res, next){

@@ -8,10 +8,13 @@
 <body>
   <script>
   function tableToJSON() {
-    console.log("HU", housingUnits);
       let housingUnits = <%-JSON.stringify(housingUnits) %>;
+      console.log("Housing Units: ", housingUnits);
       var data = [];
-
+      var repStartDate = document.getElementById("startdate").value;
+      console.log("Report Start Date", repStartDate);
+      var repEndDate = document.getElementById("enddate").value;
+      console.log("Report End Date", repEndDate);
       for(var i = 0 ; i < housingUnits.length ; i++){
         //first row needs to be headers
         var tableID = housingUnits[i].unitName + "tbl";
@@ -38,6 +41,8 @@
             var endDate = tableRow.getElementsByTagName("td")[4].innerHTML;
             if(newAssignment != ""){
               data.push({
+                repStartDate: repStartDate,
+                repEndDate: repEndDate,
                 name: name,
                 assignment: newAssignment,
                 startDate: startDate,
@@ -51,11 +56,11 @@
       const xhttp = new XMLHttpRequest();
 
       /* USE LINE BELOW TO RUN ON LOCALHOST */
-      //xhttp.open('POST', 'http://localhost:3000/reassignHousing');
+      xhttp.open('POST', 'http://localhost:3000/reassignHousing');
 
       /* USE LINE BELOW TO RUN ON HEROKU */
       //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/reassignHousing');
-      xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/reassignHousing');
+      //xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/reassignHousing');
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.responseType = "json";
       console.log(data);
