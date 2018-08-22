@@ -56,11 +56,11 @@
       const xhttp = new XMLHttpRequest();
 
       /* USE LINE BELOW TO RUN ON LOCALHOST */
-      xhttp.open('POST', 'http://localhost:3000/reassignHousing');
+      //xhttp.open('POST', 'http://localhost:3000/reassignHousing');
 
       /* USE LINE BELOW TO RUN ON HEROKU */
       //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/reassignHousing');
-      //xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/reassignHousing');
+      xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/reassignHousing');
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.responseType = "json";
       console.log(data);
