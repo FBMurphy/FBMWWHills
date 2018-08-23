@@ -33,11 +33,11 @@ function tableToJSON(table) {
     const xhttp = new XMLHttpRequest();
 
     /* USE LINE BELOW TO RUN ON LOCALHOST */
-    xhttp.open('POST', 'http://localhost:3000/clearGroups');
+    //xhttp.open('POST', 'http://localhost:3000/clearGroups');
 
     /* USE LINE BELOW TO RUN ON HEROKU */
     //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearGroups');
-    //xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/clearGroups');
+    xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/clearGroups');
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.responseType = "json";
     console.log(data);
