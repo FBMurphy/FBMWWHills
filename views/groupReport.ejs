@@ -25,7 +25,7 @@ function tableToJSON(table) {
         var completed = tableRow.getElementsByTagName("td")[9].getElementsByTagName("input")[0].checked;
         var groupID = tableRow.getElementsByTagName("td")[0].innerHTML;
         if(completed){
-          data.push(group);
+          data.push(groupID);
           console.log(data);
         }
     }
@@ -33,15 +33,16 @@ function tableToJSON(table) {
     const xhttp = new XMLHttpRequest();
 
     /* USE LINE BELOW TO RUN ON LOCALHOST */
-    xhttp.open('POST', 'http://localhost:3000/clearVols');
+    xhttp.open('POST', 'http://localhost:3000/clearGroups');
 
     /* USE LINE BELOW TO RUN ON HEROKU */
-    //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearProjects');
+    //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearGroups');
+    //xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/clearGroups');
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.responseType = "json";
     console.log(data);
     xhttp.send(JSON.stringify(data));
-    window.location.href = 'volunteerReport';
+    window.location.href = 'groupReport';
 }
 
 function dataToJSON(projectID){
@@ -51,7 +52,7 @@ function dataToJSON(projectID){
 
 <div class="sidenav">
   <img src="/WWRanchLogo.JPG" style="width:100%"  alt="WWRanchLogo">
-  <a onclick= 'tableToJSON(voltbl)'>Remove Selected Volunteers</a>
+  <a onclick= 'tableToJSON(voltbl)'>Remove Selected Groups</a>
   <a href= 'staffHome'>Return to the Home Page</a>
 </div>
 

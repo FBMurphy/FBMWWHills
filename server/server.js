@@ -361,7 +361,7 @@ app.post('/insertProject', function(req, res, next){
 });
 
 // Commented below is the original clearProjects code
-
+/*
 app.post('/clearProjects', function(req, res, next){
   console.log("Clear Projects req.body", req.body);
   for(var i = 0 ; i < req.body.length ; i++){
@@ -383,28 +383,25 @@ app.post('/clearProjects', function(req, res, next){
   });
   //res.render('../views/projects.ejs');
 });
+*/
 
-//updated clearProjects using async function instead of for loop
-/*
+//Updated clearProjects without the for loop
+
 app.post('/clearProjects', function(req, res, next){
   console.log("Clear Projects req.body", req.body);
-  async.eachSeries(req.body, function updateProject(obj, done){
-    console.log("inside clearProjects async obj", obj);
-    Project.findOneAndUpdate({_id : obj}, {$set: {completed: true}}, {new: true}, done);
-  }, function allDone(err){
-    if(err){
-      res.status(400).send(err);
-    }else{
-      Project.find({completed: false}).then((docs) =>{
+    Project.findOneAndUpdate({_id : {"$in" : req.body}}, {$set: {completed: true}}, {new: true}).then((doc) => {
+      Project.find({completed: false}).then((docs) => {
         var projects = docs;
-        res.render('../views/projects.ejs', {projects});
+        res.render('../views/projects.ejs',{projects});
       });
-    };
+    }, (e) => {
+      res.status(400).send(e);
+    });
   });
-});
-*/
-// Original clearVols code with for loop
 
+
+// Original clearVols code with for loop
+/*
 app.post('/clearVols', function(req, res, next){
   console.log(req.body);
   for(var i = 0 ; i < req.body.length ; i++){
@@ -423,31 +420,25 @@ app.post('/clearVols', function(req, res, next){
   });
   //res.render('../views/volunteerReport.ejs');
 });
-
-/*
-// Updated clearVols with async instead of for loop
-
-app.post('/clearVols', function(req, res, next){
-  console.log("Clear Vols req.body", req.body);
-  async.eachSeries(req.body, function updateVols(obj, done){
-    console.log("inside clearVols async obj", obj);
-    Volunteer.findOneAndRemove({_id : obj}, done);
-  }, function allDone(err){
-    if(err){
-      res.status(400).send(err);
-    }else{
-      console.log("before find() dbase call");
-      Volunteer.find({}).then((vols) =>{
-        var volunteers = vols;
-        console.log("Rendering volunteerReport now with volunteers equal to: ", volunteers);
-        res.render('../views/volunteerReport.ejs', {volunteers: 'volunteers'});
-        console.log("Finished Rendering volunteerReport");
-      });
-    };
-  });
-});
 */
 
+// Updated clearVols without for loop
+
+app.post('/clearVols', function(req, res, next){
+  console.log(req.body);
+  Volunteer.remove({_id: {"$in": req.body}}).then((doc)=>{
+    Volunteer.find({}).then((vols) => {
+      var volunteers = vols;
+      res.render('../views/volunteerReport.ejs', {volunteers});
+    }, (e) => {
+      res.status(400).send(e);
+    });
+  //res.render('../views/volunteerReport.ejs');
+  });
+});
+
+//Original clearGroup with if Statement
+/*
 app.post('/clearGroups', function(req, res, next){
   console.log(req.body);
   for(var i = 0 ; i < req.body.length ; i++){
@@ -460,6 +451,22 @@ app.post('/clearGroups', function(req, res, next){
   }
   res.render('../views/groupReport.ejs');
 });
+*/
+
+//Updated clearGroup without if Statement
+
+app.post('/clearGroups', function(req, res, next){
+  console.log(req.body);
+  MissionGroup.remove({_id: {"$in": req.body}}).then((group)=>{
+    MissionGroup.find({}).then((groups)=>{
+      var groups = groups;
+      res.render('../views/groupReport.ejs', {groups});
+    });
+  }, (e)=>{
+    res.status(400).send(e);
+  });
+});
+
 
 app.get('/seedDB', function(req, res, next){
   MissionGroup.remove({}).then(() => {
@@ -587,6 +594,7 @@ app.post('/reassignHousing', (req, res) => {
           ]
         }).then((vols) => {
           volunteers = vols;
+          res.render('../views/housingAssignments.ejs', {volunteers, housingUnits, dates});
           console.log("Volunteers: ", volunteers);
         });
       });
@@ -597,7 +605,6 @@ app.post('/reassignHousing', (req, res) => {
   console.log("Dates: ", dates);
   console.log("Volunteers2: ", volunteers);
   console.log("housingUnits2: ", housingUnits);
-  res.render('../views/housingAssignments.ejs', {volunteers, housingUnits, dates});
 });
 
   app.post('/insertHousingUnit', function(req, res, next){
