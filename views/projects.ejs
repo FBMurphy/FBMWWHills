@@ -210,7 +210,7 @@ function dataToJSON(projectID){
   <div class = "tdiv">
     <table id = "projecttbl" class = "projtbl">
       <tr>
-        <th>Project ID</th>
+        <th hidden>Project ID</th>
         <th>Project</th>
         <th>Skills Required</th>
         <th>Completed</th>
@@ -218,7 +218,7 @@ function dataToJSON(projectID){
       <%if(projects.length){%>
         <%for(var i = 0 ; i < projects.length ; i++){%>
           <tr>
-            <td><%=projects[i]._id %></td>
+            <td hidden><%=projects[i]._id %></td>
             <td><%=projects[i].name %></td>
             <td><%=projects[i].skillsRequired %></td>
             <td><input type = "checkbox"  name = "completed" id = "completed"></td>

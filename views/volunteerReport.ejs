@@ -57,7 +57,7 @@ function dataToJSON(projectID){
   <div class = "tdiv">
     <table id = "voltbl" class = "projtbl" style = "width:85%" align = "right">
       <tr>
-        <th>Volunteer ID</th>
+        <th hidden>Volunteer ID</th>
         <th>Name</th>
         <th>Age</th>
         <th>Email</th>
@@ -72,7 +72,7 @@ function dataToJSON(projectID){
       <%if(volunteers.length){%>
         <%for(var i = 0 ; i < volunteers.length ; i++){%>
           <tr>
-            <td><%=volunteers[i]._id %></td>
+            <td hidden><%=volunteers[i]._id %></td>
             <td><%=volunteers[i].firstName + " " + volunteers[i].lastName %></td>
             <td><%=volunteers[i].age %></td>
             <td><%=volunteers[i].email %></td>
