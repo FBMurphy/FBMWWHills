@@ -175,22 +175,21 @@ function tableToJSON(table) {
         var projectID = tableRow.getElementsByTagName("td")[0].innerHTML;
         if(completed){
           data.push(projectID);
-          console.log(data);
         }
     }
 
     const xhttp = new XMLHttpRequest();
 
     /* USE LINE BELOW TO RUN ON LOCALHOST */
-    //xhttp.open('POST', 'http://localhost:3000/clearProjects');
+    xhttp.open('POST', 'http://localhost:3000/clearProjects');
 
     /* USE LINE BELOW TO RUN ON HEROKU */
     //xhttp.open('POST', 'https://wildwoodhillsranch.herokuapp.com/clearVols');
-    xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/clearProjects');
+    //xhttp.open('POST', 'https://arcane-plains-96288.herokuapp.com/clearProjects');
 
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.responseType = "json";
-    console.log(data);
+    console.log("Sending this to Server: ", data);
     xhttp.send(JSON.stringify(data));
     window.location.href = 'projects';
 }
