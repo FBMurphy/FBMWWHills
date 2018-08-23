@@ -402,7 +402,7 @@ app.post('/clearProjects', function(req, res, next){
 
 // Original clearVols code with for loop
 /*
-app.post('/clearVols', function(req, res, next){
+app.post('/clearVols', fgitunction(req, res, next){
   console.log(req.body);
   for(var i = 0 ; i < req.body.length ; i++){
     var id = req.body[i];
