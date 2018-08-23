@@ -389,7 +389,7 @@ app.post('/clearProjects', function(req, res, next){
 
 app.post('/clearProjects', function(req, res, next){
   console.log("Clear Projects req.body", req.body);
-    Project.findOneAndUpdate({_id : {"$in" : req.body}}, {$set: {completed: true}}, {new: true}).then((doc) => {
+    Project.Update({_id : {"$in" : req.body}}, {$set: {completed: true}}, {new: true}).then((doc) => {
       Project.find({completed: false}).then((docs) => {
         var projects = docs;
         res.render('../views/projects.ejs',{projects});
