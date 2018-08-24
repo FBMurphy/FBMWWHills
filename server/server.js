@@ -564,6 +564,7 @@ app.post('/updateHousingInfo', function(req,res,next){
 app.post('/reassignHousing', (req, res) => {
   console.log("reassignHousing req.body", req.body);
   var dates = [req.body[0].repStartDate, req.body[0].repEndDate];
+  console.log ("Dates ", dates);
   var housingUnits = [];
   var volunteers = [];
   for(var i = 0 ; i < req.body.length ; i++){
@@ -573,12 +574,14 @@ app.post('/reassignHousing', (req, res) => {
     var arrival = req.body[i].startDate;
     var departure = req.body[i].endDate;
     var newAssignment = req.body[i].assignment;
-    console.log("All Data: " +first+"   "+last+"   "+arrival+"   "+departure+"   "+newAssignment);
+    //var id = req.body[i].id;
+    //console.log("ID and new assignment: " +id+"   "+newAssignment);
     Volunteer.findOneAndUpdate({
         firstName: first,
         lastName: last,
         //startDate: arrival,
         //endDate: departure
+        //_id: id
     }, {$set: { housingAssignment: newAssignment}
     }, {
         new: true

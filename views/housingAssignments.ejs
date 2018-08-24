@@ -15,6 +15,7 @@
       console.log("Report Start Date", repStartDate);
       var repEndDate = document.getElementById("enddate").value;
       console.log("Report End Date", repEndDate);
+      //data.push({repStartDate, repEndDate});
       for(var i = 0 ; i < housingUnits.length ; i++){
         //first row needs to be headers
         var tableID = housingUnits[i].unitName + "tbl";
@@ -36,6 +37,7 @@
             console.log("selected value is: "+ e.options[e.selectedIndex].text);
             var selIndex = e.options[e.selectedIndex].text;
             var newAssignment = selIndex;
+            //var id = tableRow.getElementsByTagName("td")[6].innerHTML;
             var name = tableRow.getElementsByTagName("td")[1].innerHTML;
             var startDate = tableRow.getElementsByTagName("td")[3].innerHTML;
             var endDate = tableRow.getElementsByTagName("td")[4].innerHTML;
@@ -45,6 +47,7 @@
                 repEndDate: repEndDate,
                 name: name,
                 assignment: newAssignment,
+                //id: id
                 startDate: startDate,
                 endDate: endDate
               });
@@ -102,6 +105,7 @@
               <th>Arrival Date</th>
               <th>Departure Date</th>
               <th>Reassign Housing</th>
+              <th hidden>ID</th>
             </tr>
             <%if(volunteers.length){%>
               <%for(var j = 0 ; j < volunteers.length ; j++){%>
@@ -123,6 +127,7 @@
                         <%}%>
                       </select>
                     </td>
+                    <td hidden><%=volunteers[i].id%></td>
                   </tr>
                 <%}%>
               <%}%>
