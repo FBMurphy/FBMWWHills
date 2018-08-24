@@ -648,7 +648,7 @@ app.post('/reassignHousing', (req, res) => {
       email: req.body.email
     }).then((user) => {
       if(!user){
-        res.status(400).send('');
+        res.status(400).send('Login failed, please try again!');
       }
       else{
         bcrypt.compare(req.body.password, user.password, (err, result) => {
@@ -694,7 +694,7 @@ app.post('/reassignHousing', (req, res) => {
         transporter.sendMail({
           from: 'Heroku <herokuranch@gmail.com>',
           subject: 'Wildwood Hills Password Reset',
-          text: 'Please click the following link and enter the PIN ' + pin +  ' to reset your password. Please let us know if you did not request this action! https://wildwoodhillsranch.herokuapp.com/resetPassword ',
+          text: 'Please click the following link and enter the PIN ' + pin +  ' to reset your password. Please let us know if you did not request this action! https://https://arcane-plains-96288.herokuapp.com/resetPassword ',
           to: req.body.email
         }, function(error, info){
           if(error){
